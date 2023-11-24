@@ -29,4 +29,7 @@ public class Todo {
 
     @CreationTimestamp // 자동으로 값 드가도록
     private LocalDateTime createDate; // 등록 시간
+
+
+
 }
