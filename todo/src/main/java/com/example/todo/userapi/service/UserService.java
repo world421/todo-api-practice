@@ -1,7 +1,7 @@
 package com.example.todo.userapi.service;
 
-import antlr.Token;
 import com.example.todo.auth.TokenProvider;
+import com.example.todo.userapi.dto.response.LoginResponseDTO;
 import com.example.todo.userapi.dto.request.LoginRequestDTO;
 import com.example.todo.userapi.dto.request.UserRequestSignUpDTO;
 import com.example.todo.userapi.dto.response.UserSingUpResponseDTO;
@@ -11,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.beans.Encoder;
 
 @Service
 @Slf4j
@@ -53,7 +51,7 @@ public class UserService {
         return userRepository.existsByEmail(email); // 이
     }
     //회원 인증
-    public void authenticate(final LoginRequestDTO dto ){
+    public LoginResponseDTO authenticate(final LoginRequestDTO dto ){
 
         // 이메일을 통해 회원 정보 조회
         User user = userRepository.findByEmail(dto.getEmail())
@@ -71,7 +69,9 @@ public class UserService {
         // 로그인 성공 후에 클라이언트에게 뭘 리턴할 것인가  ? !
         // JWT를 클라이언트에게 발급해주어야한다.!
 
+        String token = tokenProvider.createToken(user);// 위의 user에게
 
+        return new LoginResponseDTO(user,token);
 
 
     }

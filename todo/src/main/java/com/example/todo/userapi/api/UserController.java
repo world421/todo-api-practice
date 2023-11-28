@@ -1,6 +1,9 @@
 package com.example.todo.userapi.api;
 
+import com.example.todo.auth.TokenProvider;
+import com.example.todo.userapi.dto.request.LoginRequestDTO;
 import com.example.todo.userapi.dto.request.UserRequestSignUpDTO;
+import com.example.todo.userapi.dto.response.LoginResponseDTO;
 import com.example.todo.userapi.dto.response.UserSingUpResponseDTO;
 import com.example.todo.userapi.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -54,6 +57,21 @@ public class UserController {
         } catch (Exception e) {
             log.info("이메일 중복 ! ");
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    // 로그인 요청처리
+    @PostMapping("/signin")
+    public ResponseEntity<?> singIn(
+            @Validated @RequestBody LoginRequestDTO dto
+    ){
+        try {
+            LoginResponseDTO responseDTO = userService.authenticate(dto);
+            return ResponseEntity.ok(responseDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest()
+                    .body(e.getMessage());
         }
     }
 
