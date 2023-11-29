@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 import static com.example.todo.userapi.entity.Role.COMMON;
 
-@Setter @Getter
+@Getter
 @ToString
 @EqualsAndHashCode(of = "id")
 @AllArgsConstructor
@@ -41,5 +41,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     //@ColumnDefault("'COMMON'")// insert 시 기본값
     @Builder.Default
-    private Role role = Role.COMMON;
+    private Role role = Role.COMMON;// 유저 권한
+
+    //등급 수정 메서드
+    public void changeRole(Role role){
+        this.role = role;
+    }
 }
