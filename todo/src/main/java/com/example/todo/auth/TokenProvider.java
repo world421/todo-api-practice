@@ -39,7 +39,6 @@ public class TokenProvider {
         Date expiry = Date.from(
                 Instant.now().plus(1, ChronoUnit.DAYS)
         );
-
         // 토큰 생성
         /*
             {
@@ -96,6 +95,7 @@ public class TokenProvider {
                 .email(claims.get("email", String.class))
                 .role(Role.valueOf(claims.get("role", String.class)))
                 .build();
+        // 데이터가 3개라 객체로 포장해소
     }
 
 

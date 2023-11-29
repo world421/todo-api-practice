@@ -26,7 +26,9 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
-
+// 위조 된게 아닌지  , 확인해야하는 필터
+    //OncePerRequestFilter 상속
+     //  이름
     private final TokenProvider tokenProvider;
 
     // 필터가 해야 할 작업을 기술
@@ -57,6 +59,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                         = new UsernamePasswordAuthenticationToken(
                         userInfo, // 컨트롤러에서 활용할 유저 정보
                         null, // 인증된 사용자의 비밀번호 - 보통 null값
+                         // 토큰에 비밀번호 설정할 일 x  NULL값 넣으면됨
                         authorityList // 인가 정보 (권한 정보)
                 );
 

@@ -60,7 +60,7 @@ public class TodoController {
     @GetMapping
     public ResponseEntity<?> retrieveTodoList(
             // JwtAuthFilter에서 시큐리티에게 전역적으로 사용할 수 있는
-            // ㅣ인증 정보를 등록해놓았기 때문에
+            // 인증 정보를 등록해놓았기 때문에
             //@ AuthenticationPrincipal  를 통해 토큰에 인증된 사용자 정보를 불러올 수 있다.
             // 토큰에 인증된 사용자 정보를 불러올 수 있다.
             @AuthenticationPrincipal TokenUserInfo userInfo
@@ -74,6 +74,7 @@ public class TodoController {
     // 할 일 삭제 요청
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTodo(
+            @AuthenticationPrincipal TokenUserInfo userInfo,
             @PathVariable("id") String todoId
     ){
         log.info("/api/todos/{} DELETE rquest!", todoId);
@@ -87,7 +88,7 @@ public class TodoController {
                             .build());
         }
         try {
-            TodoListResponseDTO responseDTO = todoService.delete(todoId);
+            TodoListResponseDTO responseDTO = todoService.delete(todoId, userInfo.getUserId());
             return ResponseEntity.ok().body(responseDTO);
         } catch (Exception e) {
             return ResponseEntity.internalServerError()
@@ -101,6 +102,7 @@ public class TodoController {
     //할일 수정하기 , 완료 인지 아닌지 check
     @RequestMapping(method = {RequestMethod.PATCH, RequestMethod.PUT})
     public ResponseEntity<?> updateTodo(
+        @AuthenticationPrincipal TokenUserInfo userInfo,
         @Validated @RequestBody  TodoModifyRequestDTO requestDTO,
         BindingResult result,
         HttpServletRequest request
@@ -113,7 +115,7 @@ public class TodoController {
         log.info("modifying dto {}", requestDTO);
 
         try {
-            TodoListResponseDTO responseDTO = todoService.update(requestDTO);
+            TodoListResponseDTO responseDTO = todoService.update(requestDTO, userInfo.getUserId());
             return ResponseEntity.ok().body(responseDTO);
         } catch (RuntimeException e) {
             return ResponseEntity.internalServerError()

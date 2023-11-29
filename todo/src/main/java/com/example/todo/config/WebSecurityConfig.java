@@ -38,16 +38,16 @@ public class WebSecurityConfig {
                 .httpBasic().disable()
                 // 세션인증을 사용하지 않겠다.
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) //
                 .and()
                 // 어떤 요청에서 인증을 안 할 것인지, 언제 인증을 할 것인지 설정
                 .authorizeRequests()
                 // '/api/auth'로 시작하는 요청과 '/'요청은 권한 검사 없이 허용하겠다.
-                .antMatchers("/", "/api/auth/**").permitAll()
+                .antMatchers("/", "/api/auth/**").permitAll() // 허용해라
                 // '/api/todos'라는 요청이 POST로 들어오고, Role 값이 ADMIN인 경우 권한 검사 없이 허용하겠다.
 //                .antMatchers(HttpMethod.POST, "/api/todos").hasRole("ADMIN").permitAll()
                 // 위에서 따로 설정하지 않은 나머지 요청들은 권한 검사가 필요하다.
-                .anyRequest().authenticated();
+                .anyRequest().authenticated(); // 검증이 필요하다
 
         // 토큰 인증 필터 연결
         // jwtAuthFilter부터 연결 -> CORS 필터를 이후에 통과하도록 설정.
